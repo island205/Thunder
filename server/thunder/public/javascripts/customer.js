@@ -9,14 +9,19 @@ $(function () {
     tipWrapper = $('.tip-wrapper'),
     infoDetails = $('.info-detail'),
     tipBtns = $('.btns'),
+    overlay = $('.overlay')
+
+    overlay.hide()
 
     // module
     tip = {
         show: function () {
-            tipWrapper.slideDown(1000)      
+            overlay.show()
+            tipWrapper.show(700)      
         },
         hide: function () {
-            tipWrapper.hide()      
+            tipWrapper.hide()
+            overlay.hide()    
         },
         search: function () {
             infoDetails.html('<h2>搜索中 ...</h2>')
