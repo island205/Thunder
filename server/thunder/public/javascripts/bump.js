@@ -1,7 +1,7 @@
 (function (WIN) {
-    var B = WIN.B || {};
-
-    var loginTime = Date.now();
+    var
+    B = {}
+    WIN.B = B
 
     var ifBumpThreshold = 2.5;
     var speedArray = new Array();
@@ -27,7 +27,7 @@
     }
 
     function stopBump() {
-        if(watchID) {
+        if (watchID) {
             navigator.accelerometer.clearWatch(watchID);
             watchID = null;
         }
@@ -41,8 +41,8 @@
 
     function onSuccess(acceleration) {
         addSpeed(acceleration.x, acceleration.y, acceleration.z);
-        if(isBump()) {
-            onBumpToDo(latitude, longitude, '' + loginTime + Date.now());
+        if (isBump()) {
+            onBumpToDo(latitude, longitude, '' + Date.now());
         }
     }
 
@@ -58,7 +58,7 @@
         var m = mean(a);
         var sum = 0;
         var l = a.length;
-        for(var i = 0; i < l; i++) {
+        for (var i = 0; i < l; i++) {
             var dev = a[i] - m;
             sum += (dev * dev);
         }
@@ -72,7 +72,7 @@
     function addSpeed(x, y, z) {
         var speed = getSpeed(x, y, z);
         speedArray.push(speed);
-        if(speedArray.length > 10) {
+        if (speedArray.length > 10) {
             speedArray.shift();
         }
     }
@@ -80,7 +80,7 @@
     function isBump() {
         var s = stdDev();
         var bump = s > ifBumpThreshold;
-        if(bump) {
+        if (bump) {
             speedArray = new Array();
         }
         return bump;
@@ -88,5 +88,4 @@
 
     B.bump = startBump;
 })(window);
-
 

@@ -12,10 +12,13 @@
         var
         socket
 
+        var
+        loginTime
+
         socket = io.connect(window.location.origin)
 
         socket.on('connected', function (data) {
-            console.log(data)
+            loginTime = new Date(data)
         })
 
         // socket.on('bump', function (data) {
@@ -30,7 +33,8 @@
             tipInfo = $('.tip-info'),
             overlay = $('.overlay')
 
-            tipWrapper.hide();
+            tipWrapper.hide()
+            overlay.hide()
 
             return {
                 tpls: {
@@ -83,19 +87,19 @@
                     return serials;
                 }
             }
-        });
+        })();
         
 
-        function onBump(latitude, longitude, id) {
+        function onBump(latitude, longitude, bumpTime) {
             var d = {
-                id: id,
+                id: '' + loginTime + bumpTime,
                 lat: latitude,
                 lon: longitude,
                 type: 'customer',
                 serial: tickets.get()
             }
 
-            overlay.show('tip1')
+            overlay.show('searching')
 
             socket.emit('bump', d)
 
