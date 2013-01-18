@@ -8,28 +8,6 @@ QueuePool.prototype.add = function(queue) {
     this.pool.push(queue);
 }
 
-QueuePool.prototype.findAPair = function () {
-    var arr = [];
-    for (var i = 0; i < this.pool.length; i ++ ) {
-        if(pool[i].confimStatus == "no"
-          || pool[i].findResult == "error") continue;
-        arr.push(pool[i]);
-    }
-    var result=[];
-    for(var i = 0; i< arr.length; i++ )
-    {
-        for( var j = i+1; j < arr.length; j++)
-        {
-            if(arr[i].id == arr[j].findResult) {
-                result.push(arr[i]);
-                result.push(arr[j]);
-                break;
-            }
-        }
-    }
-    return result;
-}
-
 QueuePool.prototype.clear = function() {
     for(var i = this.pool.length - 1; i >= 0; i--) {
         this.pool.splice(i, 1);
@@ -66,6 +44,28 @@ QueuePool.prototype.findBumper = function(id) {
         }
     };
     return null;
+}
+
+QueuePool.prototype.findAPair = function () {
+    var arr = [];
+    for (var i = 0; i < this.pool.length; i ++ ) {
+        if(pool[i].confimStatus == "no"
+          || pool[i].findResult == "error") continue;
+        arr.push(pool[i]);
+    }
+    var result=[];
+    for(var i = 0; i< arr.length; i++ )
+    {
+        for( var j = i+1; j < arr.length; j++)
+        {
+            if(arr[i].id == arr[j].findResult) {
+                result.push(arr[i]);
+                result.push(arr[j]);
+                break;
+            }
+        }
+    }
+    return result;
 }
 
 QueuePool.prototype.serialOperateStatus = function (serial) {
