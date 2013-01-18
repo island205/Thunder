@@ -8,7 +8,9 @@ var express = require('express')
   , customer = require('./routes/customer')
   , shop = require('./routes/shop')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , server
+  , io
 
 var app = express();
 
@@ -35,6 +37,8 @@ app.get('/', routes.index);
 app.get('/customer', customer.customer)
 app.get('/shop', shop.shop)
 
-http.createServer(app).listen(app.get('port'), function(){
+server = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
+
+io = require('socket.io').listen(server)
