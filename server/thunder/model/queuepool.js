@@ -10,7 +10,12 @@ QueuePool.prototype.add = function(queue) {
 
 QueuePool.prototype.clear = function() {
     for(var i = this.pool.length - 1; i >= 0; i--) {
+        if(this.pool[i].findResult == "error"
+          || (Date.now() - this.pool[i].time) > 5*60*1000 )
+      {
         this.pool.splice(i, 1);
+        break;
+      }
     };
 }
 
