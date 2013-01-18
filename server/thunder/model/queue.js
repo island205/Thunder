@@ -10,8 +10,6 @@ function Queue(id, lat, lon, bt, time, type, serial, handle) {
     this.serial = serial; //团购券 Array()
     this.socketHandle = handle; //SocketIoHandle
 
-    this.shopType = 'shop';
-    this.customerType = 'customer';
     this.findResult = null; //[id]:other id, "error":find error
     this.confirmStatus = null; //"yes", "no"
     this.confirmResult = null; //"ok"
