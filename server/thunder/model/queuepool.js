@@ -9,6 +9,7 @@ QueuePool.prototype.add = function(queue) {
 }
 
 QueuePool.prototype.clear = function() {
+<<<<<<< HEAD
     for(var i = this.pool.length - 1; i >= 0; i--) {
         this.pool.splice(i, 1);
     };
@@ -46,11 +47,20 @@ QueuePool.prototype.findBumper = function(id) {
     return null;
 }
 
+QueuePool.prototype.serialOperateStatus = function (serial) {
+    var status = [];
+    for(var i=0; i<serial.length; i++){
+
+        status.push(serial[i] + ", " + function () {
+            return Math.random() < 0.5 ? "成功" : "失败";
+        }();
+    }
+    return status;
+}
 
 QueuePool.prototype.debug = function() {
     console.debug(this.pool);
 }
-
 
 
 /*---------- Worker ----------*/
@@ -61,3 +71,4 @@ QueuePool.prototype.startClearWorker = function() {
 QueuePool.prototype.stopClearWorker = function() {
     clearInterval(this.clearWorker);
 }
+
