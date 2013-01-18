@@ -5,6 +5,22 @@ $(function () {
     Overlay,
     Tickets
 
+    // socket.io
+    var
+    socket
+
+    socket = io.connect(window.location.origin)
+
+    socket.on('connected', function (data) {
+        console.log(data)
+    })
+
+    // socket.on('bump', function (data) {
+    //     console.log(data)
+    // })
+    
+    // socket.emit('bump', {id: 54365 })
+
     Overlay = (function () {
         var
         tipWrapper = $('.tip-wrapper'),
@@ -66,5 +82,7 @@ $(function () {
     }
 
     DOC.addEventListener("deviceready", onDeviceReady, false);
+
+
 })
 
