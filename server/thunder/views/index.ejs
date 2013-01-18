@@ -4,18 +4,29 @@
     <script type = "text/javascript" src = '/asset/cordova-2.3.0.js' ></script>
     <script type = "text/javascript" src = '/javascripts/bump.js' ></script>
     <script type="text/javascript" charset="utf-8">
+        /*var serial = [];*/
+        /*var n = 100;*/
+        /*while(n--){*/
+            /*serial.push("xxx:" + n.toString());*/
+        /*}*/
 
-    document.addEventListener("deviceready", onDeviceReady, false);
+        /*var getStatus = function (serial) {*/
+            /*var status = [];*/
+            /*for(var i=0; i<serial.length; i++){*/
+                /*var s = function () {*/
+                    /*return Math.random() < 0.5 ? "成功" : "失败";*/
+                /*}();*/
+                /*status.push(serial[i] + ", " + s);*/
+                /*console.log(s);*/
+            /*}*/
+            /*return status;*/
+        /*}*/
 
-    function onDeviceReady() {
-        startBump(function(latitude,longitude,data){
-            alert(latitude + ' ' +longitude+ ' ' + data);
-        });
-    }
+        /*getStatus(serial);*/
 
     </script>
   </head>
   <body>
-    <div id="accelerometer">Waiting for accelerometer...</div>
+
   </body>
 </html>
