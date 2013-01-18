@@ -1,7 +1,14 @@
 Zepto(function ($) {
     var
     DOC = document,
-    fNOP = function () {}
+    fNOP = function () {},
+    contentScroll
+
+    contentScroll =  new iScroll('content-wrapper', {
+        hScroll: false,
+        hScrollbar: false,
+        checkDOMChanges: false
+    });
 
     function onBump(accelerationSpeed) {
         alert('bump')
