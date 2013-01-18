@@ -1,8 +1,12 @@
-var ifBumpThreshold = 3;
+var ifBumpThreshold = 2.5;
 var speedArray = new Array();
-var timeSpan = 20;
+var timeSpan = 50;
 var watchID = null;
+var geoWatchID = null;
 var onBumpToDo;
+var latitude = 0;
+var longitude = 0;
+var altitude = 0;
 
 function startBump(onBump) {
     onBumpToDo = onBump;
@@ -12,6 +16,9 @@ function startBump(onBump) {
     };
 
     watchID = navigator.accelerometer.watchAcceleration(onSuccess, onError, options);
+    geoWatchID = navigator.geolocation.watchPosition(onGeoSuccess, onError, {
+        timeout: 1000
+    });
 }
 
 function stopBump() {
@@ -21,10 +28,16 @@ function stopBump() {
     }
 }
 
+function onGeoSuccess(position) {
+    latitude = position.coords.latitude;
+    longitude = position.coords.longitude;
+    altitude = position.coords.altitude;
+}
+
 function onSuccess(acceleration) {
     addSpeed(acceleration.x, acceleration.y, acceleration.z);
     if(isBump()) {
-        onBumpToDo();
+        onBumpToDo(latitude,longitude,new Date());
     }
 }
 
@@ -54,7 +67,7 @@ function getSpeed(x, y, z) {
 function addSpeed(x, y, z) {
     var speed = getSpeed(x, y, z);
     speedArray.push(speed);
-    if(speedArray.length > 100) {
+    if(speedArray.length > 10) {
         speedArray.shift();
     }
 }

@@ -8,7 +8,9 @@
     document.addEventListener("deviceready", onDeviceReady, false);
 
     function onDeviceReady() {
-        startBump(function(){alert('bump!');});
+        startBump(function(latitude,longitude,data){
+            alert(latitude + ' ' +longitude+ ' ' + data);
+        });
     }
 
     </script>
