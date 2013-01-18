@@ -46,13 +46,17 @@ QueuePool.prototype.findBumperById = function(id) {
     return null;
 }
 
-<<<<<<< HEAD
 QueuePool.prototype.serialOperateResult = function (serial) {
     var status = [];
     for(var i=0; i<serial.length; i++){
 
         status.push([serial[i] ,function () {
-=======
+            return Math.random() < 0.5 ? "成功" : "失败";
+        }()]);
+    }
+    return status;
+}
+
 QueuePool.prototype.findAPair = function () {
     var arr = [];
     for (var i = 0; i < this.pool.length; i ++ ) {
@@ -73,17 +77,6 @@ QueuePool.prototype.findAPair = function () {
         }
     }
     return result;
-}
-
-QueuePool.prototype.serialOperateStatus = function (serial) {
-    var status = [];
-    for(var i=0; i<serial.length; i++){
-        status.push(serial[i] + ", " + function () {
->>>>>>> 92df96e5642bc2a429df9f7b2cf30f96f7f2ac03
-            return Math.random() < 0.5 ? "成功" : "失败";
-        }()]);
-    }
-    return status;
 }
 
 QueuePool.prototype.findBumper = function () {
