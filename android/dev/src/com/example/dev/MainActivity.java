@@ -1,4 +1,4 @@
-package com.dianping.hackathon.thunder.shop;
+package com.example.dev;
 
 import android.os.Bundle;
 import org.apache.cordova.*;
@@ -9,6 +9,6 @@ public class MainActivity extends DroidGap{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.loadUrl("http://192.168.13.152:3000/shop");
+        super.loadUrl("http://192.168.62.110:3000/");
     }
 }
