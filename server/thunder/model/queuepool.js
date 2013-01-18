@@ -9,7 +9,6 @@ QueuePool.prototype.add = function(queue) {
 }
 
 QueuePool.prototype.clear = function() {
-<<<<<<< HEAD
     for(var i = this.pool.length - 1; i >= 0; i--) {
         this.pool.splice(i, 1);
     };
