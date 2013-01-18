@@ -1,42 +1,71 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script type="text/javascript" src='/asset/cordova-2.3.0.js'></script>
-	<script type="text/javascript" charset="utf-8">
+    <script type = "text/javascript" src = '/asset/cordova-2.3.0.js' ></script>
+    <script type = "text/javascript" src = '/javascripts/bump.js' ></script>
+    <script type="text/javascript" charset="utf-8">
+
+    // The watch id references the current `watchAcceleration`
+    var watchID = null;
 
     // Wait for Cordova to load
     //
     document.addEventListener("deviceready", onDeviceReady, false);
 
-    var watchID = null;
-
     // Cordova is ready
     //
     function onDeviceReady() {
-        // Throw an error if no update is received every 30 seconds
-        var options = { timeout: 30000 };
-        watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
+        startWatch();
     }
 
-    // onSuccess Geolocation
+    // Start watching the acceleration
     //
-    function onSuccess(position) {
-        var element = document.getElementById('geolocation');
-        element.innerHTML = 'Latitude: '  + position.coords.latitude      + '<br />' +
-                            'Longitude: ' + position.coords.longitude     + '<br />' +
-                            '<hr />'      + element.innerHTML;
+    function startWatch() {
+
+        // Update acceleration every 3 seconds
+        var options = { frequency: 20 };
+
+        watchID = navigator.accelerometer.watchAcceleration(onSuccess, onError, options);
     }
 
-    // onError Callback receives a PositionError object
+    // Stop watching the acceleration
     //
-    function onError(error) {
-        alert('code: '    + error.code    + '\n' +
-              'message: ' + error.message + '\n');
+    function stopWatch() {
+        if (watchID) {
+            navigator.accelerometer.clearWatch(watchID);
+            watchID = null;
+        }
+    }
+
+
+    var max=0;
+    // onSuccess: Get a snapshot of the current acceleration
+    //
+    function onSuccess(acceleration) {
+
+        //how to use?
+        addSpeed(acceleration.x,acceleration.y,acceleration.z);
+        if(isBump()){
+            alert('bump!');
+        }
+
+        
+        var element = document.getElementById('accelerometer');
+        element.innerHTML = 'Acceleration X: ' + acceleration.x + '<br />' +
+                            'Acceleration Y: ' + acceleration.y + '<br />' +
+                            'Acceleration Z: ' + acceleration.z + '<br />' +
+                            'Timestamp: '      + acceleration.timestamp + '<br />';
+    }
+
+    // onError: Failed to get the acceleration
+    //
+    function onError() {
+        alert('onError!');
     }
 
     </script>
-</head>
-<body>
-	<p id="geolocation">Watching geolocation...</p>
-</body>
+  </head>
+  <body>
+    <div id="accelerometer">Waiting for accelerometer...</div>
+  </body>
 </html>
