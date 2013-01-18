@@ -72,12 +72,14 @@ img
     position: absolute
     top: 0
     width: 100%
+    z-index: 100
 
 .tip-info
     width: 70%
     margin: 0px auto
     padding: 15px 25px
     border: 3px solid #0082cd
+    border-top: 0;
     border-radius: 0 0 8px 8px
     background-color: #ffffff
 
@@ -168,6 +170,17 @@ img
 
 .item-info
     padding-left: 95px
+
+.overlay
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background-color: #666666
+    opacity: 0.3
+    filter: alpha(opacity=30%)
+    z-index: 1
 
 
     
