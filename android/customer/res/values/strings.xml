@@ -4,5 +4,6 @@
     <string name="app_name">ThunderCustomer</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
+    <string name="sever">192.168.13.152</string>
 
 </resources>

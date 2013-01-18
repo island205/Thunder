@@ -8,7 +8,8 @@ public class MainActivity extends DroidGap{
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+    	String server = getString(R.string.sever);
         super.onCreate(savedInstanceState);
-        super.loadUrl("http://192.168.13.152:3000/customer");
+        super.loadUrl("http://" + server + ":3000/customer");
     }
 }
