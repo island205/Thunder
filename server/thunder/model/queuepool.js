@@ -155,8 +155,20 @@ QueuePool.prototype.debug = function() {
 
 /*---------- Worker ----------*/
 QueuePool.prototype.startClearWorker = function() {
-    this.clearWorker = setInterval(this.clear, 1000);
+    this.clearWorker = setInterval(this.clear, 200);
 }
 QueuePool.prototype.stopClearWorker = function() {
     clearInterval(this.clearWorker);
 }
+QueuePool.prototype.startFindBumperWorker = function() {
+    this.clearWorker = setInterval(this.clear, 1000);
+}
+QueuePool.prototype.stopFindBumperWorker = function() {
+    clearInterval(this.findBumper);
+}
+// QueuePool.prototype.startClearWorker = function() {
+//     this.clearWorker = setInterval(this.clear, 200);
+// }
+// QueuePool.prototype.stopClearWorker = function() {
+//     clearInterval(this.clearWorker);
+// }
