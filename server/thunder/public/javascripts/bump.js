@@ -1,6 +1,34 @@
 var ifBumpThreshold = 3;
 var speedArray = new Array();
 var timeSpan = 20;
+var watchID = null;
+var onBumpToDo;
+
+function startBump(onBump) {
+    onBumpToDo = onBump;
+
+    var options = {
+        frequency: timeSpan
+    };
+
+    watchID = navigator.accelerometer.watchAcceleration(onSuccess, onError, options);
+}
+
+function stopBump() {
+    if(watchID) {
+        navigator.accelerometer.clearWatch(watchID);
+        watchID = null;
+    }
+}
+
+function onSuccess(acceleration) {
+    addSpeed(acceleration.x, acceleration.y, acceleration.z);
+    if(isBump()) {
+        onBumpToDo();
+    }
+}
+
+function onError() {}
 
 function mean(a) {
     var sum = eval(a.join(" + "));
