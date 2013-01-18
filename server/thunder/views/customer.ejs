@@ -17,6 +17,23 @@
         <div id="content-wrapper">
             <div class="content">
                 <div class="tickets">
+                    <% tickets.forEach(function (ticket) { %>
+                        <div class="ticket-item">
+                            <div class="ticket-info">
+                                <div class="ticket-title clearfix">
+                                    <h4 class="fl"> <%=ticket.shop.name %> </h4>
+                                    <span class="fr"><%=ticket.dateString %></span>
+                                </div>
+                                    
+                                <div class="ticket-extral-info clearfix">
+                                    <span class="ticket-no">券号：<%=ticket.number %></span>
+                                    <span class="ticket-vertify-status ico-vertify-status-waiting">待验证</span>
+                                </div>
+                            </div>
+                            <div class="line"></div>
+                        </div>
+                    <% }) %>
+                    <!--
                     <div class="ticket-item">
                         <div class="ticket-info">
                             <div class="ticket-title clearfix">
@@ -157,6 +174,7 @@
                         </div>
                         <div class="line"></div>
                     </div>
+                    -->
                 </div>
             </div>
         </div>
