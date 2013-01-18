@@ -7,6 +7,7 @@
         <link rel='stylesheet' href='/stylesheets/base.css' />
         <link rel='stylesheet' href='/stylesheets/comm.css' />
         <script type="text/javascript" src='/asset/jquery-1.9.0.min.js'></script>
+        <script type="text/javascript" src='/asset/underscore.min.js'></script>
         <!--
         <script type="text/javascript" src='/asset/zepto.min.js'></script>
         <script type="text/javascript" src='/asset/zepto.plugin.js'></script>
@@ -23,7 +24,7 @@
             <div class="content">
                 <div class="tickets">
                     <% tickets.forEach(function (ticket) { %>
-                        <div class="ticket-item">
+                        <div class="ticket-item" data-serial="<%= ticket.number %>">
                             <div class="ticket-info">
                                 <div class="ticket-title clearfix">
                                     <h4 class="fl"> <%=ticket.shop.name %> </h4>

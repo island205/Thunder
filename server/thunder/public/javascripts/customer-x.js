@@ -2,10 +2,10 @@ $(function () {
     var
     DOC = document,
     fNOP = function () {},
-    Overlay,
-    Tickets
+    overlay,
+    tickets
 
-    Overlay = (function () {
+    overlay = (function () {
         var
         tipWrapper = $('.tip-wrapper'),
         tipInfo = $('.tip-info'),
@@ -43,19 +43,39 @@ $(function () {
         checkDOMChanges: false
     });
 
-    Tickets = (function () {
-        var $tickets = $('.ticket-item')
+    tickets = (function () {
+        var $tickets = $('.ticket-item'),
+            serials = []
 
         $tickets.click(function () {
+            var serial = $(this).attr('data-serial');
+
             $(this).toggleClass('selected')
+
+            if ($(this).hasClass('selected')) {
+                serials.push(serial)
+            } else {
+                serials = _.without(serials, serial)
+            }
         })
 
-
+        return {
+            get: function () {
+                return serials;
+            }
+        }
     });
     
 
     function onBump(latitude, longitude, date) {
-        Overlay.show('tip1')
+        var d = {
+            id: '' + __loginId + date.getTime(),
+
+        }
+
+        overlay.show('tip1')
+
+
         // TODO:
         // 1. 获取选择的数据发送给服务器
         
