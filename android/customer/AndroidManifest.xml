@@ -40,7 +40,7 @@
         <activity
             android:name="com.dianping.hackathon.thunder.customer.MainActivity"
             android:label="@string/app_name" 
-            android:configChanges="orientation|keyboardHidden">
+            android:configChanges="orientation|keyboardHidden|keyboard|locale">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
