@@ -1,32 +1,70 @@
-Zepto(function ($) {
+$(function () {
     var
     DOC = document,
     fNOP = function () {},
     contentScroll
 
-    contentScroll =  new iScroll('content-wrapper', {
-        hScroll: false,
-        hScrollbar: false,
-        checkDOMChanges: false
-    });
+    // dom
+    var
+    tipWrapper = $('.tip-wrapper'),
+    infoDetails = $('.info-detail'),
+    tipBtns = $('.btns'),
 
-    function onBump(accelerationSpeed) {
-        alert('bump')
-    }
-
-    function onWatchAcceleration(acceleration) {
-        var accelerationSpeed = Math.sqrt(Math.pow(acceleration.x, 2) + Math.pow(acceleration.y, 2) + Math.pow(acceleration.z, 2))
-        if (accelerationSpeed > 20) {
-            onBump(accelerationSpeed)
+    // module
+    tip = {
+        show: function () {
+            tipWrapper.slideDown(1000)      
+        },
+        hide: function () {
+            tipWrapper.hide()      
+        },
+        search: function () {
+            infoDetails.html('<h2>搜索中 ...</h2>')
+            this.show()
         }
     }
 
-    function onDeviceReady() {
-        navigator.accelerometer.watchAcceleration(onWatchAcceleration, fNOP, {
-            'frequency': 200
-        })
+    tip.hide()
+
+    window.tip = tip
+
+    contentScroll = new iScroll('content-wrapper', {
+        hScroll: false,
+        hScrollbar: false,
+        checkDOMChanges: false
+    })
+
+    $('.ticket-item').click(function () {
+        $(this).toggleClass('selected')
+    })
+
+    function onBump(latitude, longitude, date) {
+        tip.search()
     }
 
-    DOC.addEventListener('deviceready', onDeviceReady, false)
+    function onDeviceReady() {
+        startBump(onBump);
+    }
+
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    //    function onBump(accelerationSpeed) {
+    //        alert('bump')
+    //    }
+    //
+    //    function onWatchAcceleration(acceleration) {
+    //        var accelerationSpeed = Math.sqrt(Math.pow(acceleration.x, 2) + Math.pow(acceleration.y, 2) + Math.pow(acceleration.z, 2))
+    //        if (accelerationSpeed > 20) {
+    //            onBump(accelerationSpeed)
+    //        }
+    //    }
+    //
+    //    function onDeviceReady() {
+    //        navigator.accelerometer.watchAcceleration(onWatchAcceleration, fNOP, {
+    //            'frequency': 200
+    //        })
+    //    }
+    //
+    //    DOC.addEventListener('deviceready', onDeviceReady, false)
 })
 
