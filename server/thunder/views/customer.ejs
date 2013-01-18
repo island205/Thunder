@@ -4,107 +4,160 @@
         <title><%= title %></title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0" />
-        <link rel='stylesheet' href='/stylesheets/style.css' />
-        <script src="/socket.io/socket.io.js"></script>
+        <link rel='stylesheet' href='/stylesheets/base.css' />
+        <link rel='stylesheet' href='/stylesheets/comm.css' />
         <script type="text/javascript" src='/asset/zepto.min.js'></script>
         <script type="text/javascript" src='/asset/cordova-2.3.0.js'></script>
         <script type="text/javascript" src='/asset/iscroll.js'></script>
     </head>
     <body>
         <div class="header">
-            <h3>我的团购券</h3>
+            <h1 class="fn">我的团购券</h1>
         </div>
         <div id="content-wrapper">
             <div class="content">
-                <ul class="tickets">
-                    <li>
-                        <div class="ticket-title clearfix">
-                            <h4>毒犯国际万裕影城</h4>
-                            <span>2013-01-30</span>
+                <div class="tickets">
+                    <div class="ticket-item">
+                        <div class="ticket-info">
+                            <div class="ticket-title clearfix">
+                                <h4 class="fl">毒犯国际万裕影城</h4>
+                                <span class="fr">2013-01-30</span>
+                            </div>
+                                
+                            <div class="ticket-extral-info clearfix">
+                                <span class="ticket-no">券号：9646879567</span>
+                                <span class="ticket-vertify-status ico-vertify-status-ok">验证成功</span>
+                            </div>
                         </div>
-                            
-                        <div class="ticket-extral-info clearfix">
-                            <span class="ticket-no">券号：9646879567</span>
-                            <span class="ticket-vertify-status"><i class="ico-vertify-status-ok"></i>验证成功</span>
+                        <div class="line"></div>
+                    </div>
+                    <div class="ticket-item">
+                        <div class="ticket-info">
+                            <div class="ticket-title clearfix">
+                                <h4 class="fl">毒犯国际万裕影城</h4>
+                                <span class="fr">2013-01-30</span>
+                            </div>
+                                
+                            <div class="ticket-extral-info clearfix">
+                                <span class="ticket-no">券号：9646879567</span>
+                                <span class="ticket-vertify-status ico-vertify-status-ok">验证成功</span>
+                            </div>
                         </div>
-                    </li>
-                    <li>
-                        <h4>毒犯国际万裕影城</h4>
-                        <div>券号：<span>9646879567</span></div>
-                    </li>
-                    <li>
-                        <h4>毒犯国际万裕影城</h4>
-                        <div>券号：<span>9646879567</span></div>
-                    </li>
-                    <li>
-                        <h4>毒犯国际万裕影城</h4>
-                        <div>券号：<span>9646879567</span></div>
-                    </li>
-                    <li>
-                        <h4>毒犯国际万裕影城</h4>
-                        <div><span>9646879567</span></div>
-                    </li>
-                    <li>
-                        <h4>毒犯国际万裕影城</h4>
-                        <div><span>9646879567</span></div>
-                    </li>
-                    <li>
-                        <h4>毒犯国际万裕影城</h4>
-                        <div><span>9646879567</span></div>
-                    </li>
-                    <li>
-                        <h4>毒犯国际万裕影城</h4>
-                        <div><span>9646879567</span></div>
-                    </li>
-                    <li>
-                        <h4>毒犯国际万裕影城</h4>
-                        <div><span>9646879567</span></div>
-                    </li>
-                    <li>
-                        <h4>毒犯国际万裕影城</h4>
-                        <div><span>9646879567</span></div>
-                    </li>
-                    <li>
-                        <h4>毒犯国际万裕影城</h4>
-                        <div><span>9646879567</span></div>
-                    </li>
-                    <li>
-                        <h4>毒犯国际万裕影城</h4>
-                        <div><span>9646879567</span></div>
-                    </li>
-                    <li>
-                        <h4>毒犯国际万裕影城</h4>
-                        <div><span>9646879567</span></div>
-                    </li>
-                    <li>
-                        <h4>毒犯国际万裕影城</h4>
-                        <div><span>9646879567</span></div>
-                    </li>
-                    <li>
-                        <h4>毒犯国际万裕影城</h4>
-                        <div><span>9646879567</span></div>
-                    </li>
-                    <li>
-                        <h4>毒犯国际万裕影城</h4>
-                        <div><span>9646879567</span></div>
-                    </li>
-                    <li>
-                        <h4>毒犯国际万裕影城</h4>
-                        <div><span>9646879567</span></div>
-                    </li>
-                    <li>
-                        <h4>毒犯国际万裕影城</h4>
-                        <div><span>9646879567</span></div>
-                    </li>
-                    <li>
-                        <h4>毒犯国际万裕影城</h4>
-                        <div><span>9646879567</span></div>
-                    </li>
-                    <li>
-                        <h4>毒犯国际万裕影城</h4>
-                        <div><span>9646879567</span></div>
-                    </li>
-                </ul>
+                        <div class="line"></div>
+                    </div>
+                    <div class="ticket-item">
+                        <div class="ticket-info">
+                            <div class="ticket-title clearfix">
+                                <h4 class="fl">毒犯国际万裕影城</h4>
+                                <span class="fr">2013-01-30</span>
+                            </div>
+                                
+                            <div class="ticket-extral-info clearfix">
+                                <span class="ticket-no">券号：9646879567</span>
+                                <span class="ticket-vertify-status ico-vertify-status-ok">验证成功</span>
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                    </div>
+                    <div class="ticket-item">
+                        <div class="ticket-info">
+                            <div class="ticket-title clearfix">
+                                <h4 class="fl">毒犯国际万裕影城</h4>
+                                <span class="fr">2013-01-30</span>
+                            </div>
+                                
+                            <div class="ticket-extral-info clearfix">
+                                <span class="ticket-no">券号：9646879567</span>
+                                <span class="ticket-vertify-status ico-vertify-status-error">验证成功</span>
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                    </div>
+                    <div class="ticket-item">
+                        <div class="ticket-info">
+                            <div class="ticket-title clearfix">
+                                <h4 class="fl">毒犯国际万裕影城</h4>
+                                <span class="fr">2013-01-30</span>
+                            </div>
+                                
+                            <div class="ticket-extral-info clearfix">
+                                <span class="ticket-no">券号：9646879567</span>
+                                <span class="ticket-vertify-status ico-vertify-status-ok">验证成功</span>
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                    </div>
+                    <div class="ticket-item selected">
+                        <div class="ticket-info">
+                            <div class="ticket-title clearfix">
+                                <h4 class="fl">毒犯国际万裕影城</h4>
+                                <span class="fr">2013-01-30</span>
+                            </div>
+                                
+                            <div class="ticket-extral-info clearfix">
+                                <span class="ticket-no">券号：9646879567</span>
+                                <span class="ticket-vertify-status ico-vertify-status-waiting">待验证</span>
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                    </div>
+                    <div class="ticket-item">
+                        <div class="ticket-info">
+                            <div class="ticket-title clearfix">
+                                <h4 class="fl">毒犯国际万裕影城</h4>
+                                <span class="fr">2013-01-30</span>
+                            </div>
+                                
+                            <div class="ticket-extral-info clearfix">
+                                <span class="ticket-no">券号：9646879567</span>
+                                <span class="ticket-vertify-status ico-vertify-status-ok">验证成功</span>
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                    </div>
+                    <div class="ticket-item selected">
+                        <div class="ticket-info">
+                            <div class="ticket-title clearfix">
+                                <h4 class="fl">毒犯国际万裕影城</h4>
+                                <span class="fr">2013-01-30</span>
+                            </div>
+                                
+                            <div class="ticket-extral-info clearfix">
+                                <span class="ticket-no">券号：9646879567</span>
+                                <span class="ticket-vertify-status ico-vertify-status-waiting">待验证</span>
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                    </div>
+                    <div class="ticket-item">
+                        <div class="ticket-info">
+                            <div class="ticket-title clearfix">
+                                <h4 class="fl">毒犯国际万裕影城</h4>
+                                <span class="fr">2013-01-30</span>
+                            </div>
+                                
+                            <div class="ticket-extral-info clearfix">
+                                <span class="ticket-no">券号：9646879567</span>
+                                <span class="ticket-vertify-status ico-vertify-status-waiting">待验证</span>
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                    </div>
+                    <div class="ticket-item">
+                        <div class="ticket-info">
+                            <div class="ticket-title clearfix">
+                                <h4 class="fl">毒犯国际万裕影城</h4>
+                                <span class="fr">2013-01-30</span>
+                            </div>
+                                
+                            <div class="ticket-extral-info clearfix">
+                                <span class="ticket-no">券号：9646879567</span>
+                                <span class="ticket-vertify-status ico-vertify-status-error">验证失败</span>
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                    </div>
+                </div>
             </div>
         </div>
         <script type="text/javascript" src='/javascripts/customer.js'></script>
