@@ -5,7 +5,7 @@
 
     var ifBumpThreshold = 2.5;
     var speedArray = new Array();
-    var timeSpan = 50;
+    var timeSpan = 20;
     var watchID = null;
     var geoWatchID = null;
     var onBumpToDo;
@@ -86,6 +86,7 @@
         return bump;
     }
 
-    B.bump = startBump;
+    B.startBump = startBump
+    B.stopBump = stopBump
 })(window);
 

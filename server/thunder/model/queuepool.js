@@ -1,4 +1,4 @@
-module.export = QueuePool;
+module.exports = QueuePool;
 
 function QueuePool() {
     this.pool = new Array();
@@ -7,6 +7,16 @@ function QueuePool() {
 QueuePool.prototype.add = function(queue) {
     this.pool.push(queue);
 }
+
+QueuePool.prototype.remove = function(queue) {
+    for(var i = this.pool.length - 1; i >= 0; i--) {
+        if(this.pool[i].id === queue.id) {
+            this.pool.splice(i, 1);
+            break;
+        }
+    };
+}
+
 
 QueuePool.prototype.clear = function() {
     for(var i = this.pool.length - 1; i >= 0; i--) {
@@ -30,7 +40,7 @@ QueuePool.prototype.setConfirmResult = function(id, result) {
     if(queue == null) {
         return;
     }
-    queue.setConfirmResult = result;
+    queue.confimStatus = result;
 }
 
 QueuePool.prototype.findById = function(id) {
@@ -67,8 +77,8 @@ QueuePool.prototype.serialOperateResult = function(serial) {
 QueuePool.prototype.findAPair = function(action) {
     var arr = [];
     for(var i = 0; i < this.pool.length; i++) {
-        if(pool[i].confimStatus == "no" || pool[i].findResult == "error") continue;
-        arr.push(pool[i]);
+        if(this.pool[i].confimStatus != true || this.pool[i].findResult == "error") continue;
+        arr.push(this.pool[i]);
     }
     var result = [];
     for(var i = 0; i < arr.length; i++) {
@@ -82,8 +92,8 @@ QueuePool.prototype.findAPair = function(action) {
     }
     if(result.length != 0) {
         action(result[0], result[1]);
-        result[0].confirmResult = 'ok';
-        result[1].confirmResult = 'ok';
+        this.remove(result[0])
+        this.remove(result[1])
     }
 }
 
@@ -177,7 +187,7 @@ QueuePool.prototype.findBumper = function(action) {
 }
 
 QueuePool.prototype.debug = function() {
-    console.debug(this.pool);
+    console.log(this.pool);
 }
 
 /*---------- Worker ----------*/

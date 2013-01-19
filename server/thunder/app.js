@@ -9,6 +9,9 @@ var express = require('express')
   , shop = require('./routes/shop')
   , http = require('http')
   , path = require('path')
+  , Queue = require('./model/queue')
+  , QueuePool = require('./model/queuepool')
+  , queuePool = new QueuePool()
   , server
   , io
 
@@ -42,11 +45,33 @@ server = http.createServer(app).listen(app.get('port'), function(){
 });
 
 io = require('socket.io').listen(server)
-io.set('log level', 1)
+io.set('log level', 2)
 
 io.sockets.on('connection', function (socket) {
-    socket.on('bump', function (data) {
-        console.log(data)
+    socket.on('bump', function (data) {        
+        var queue
+
+        data.handle = socket 
+
+        queue = new Queue(data)
+        queuePool.add(queue)
+        queuePool.debug()
+    });
+
+    socket.on('confirm', function (data) {        
+        debugger
+        queuePool.setConfirmResult(data.id, data.result);
     })
+
     socket.emit('connected', new Date())
 })
+
+queuePool.startFindBumperWorker(function(q1,q2){
+    q1.socketHandle.emit('find', { id: q1.id, name: q2.id, result: true });
+    q2.socketHandle.emit('find', { id: q2.id, name: q1.id, result: true });
+});
+
+queuePool.startFindAPairWorker(function(q1,q2){
+    q1.socketHandle.emit('over', { serials: [{ serial: '0208999200', result: true }, { serial: '7906487473', result: true }] });
+    q2.socketHandle.emit('over', { serials: [{ serial: '0208999200', result: true }, { serial: '7906487473', result: true }] });
+});

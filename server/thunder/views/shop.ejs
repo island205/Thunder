@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html manifest="cache.manifest">
     <head>
         <title><%= title %></title>
         <link rel='stylesheet' href='/stylesheets/base.css' />
         <link rel='stylesheet' href='/stylesheets/comm.css' />
         <script src="/socket.io/socket.io.js"></script>
         <script type="text/javascript" src='/asset/cordova-2.3.0.js'></script>
-        <script type="text/javascript" src='/asset/jquery-1.9.0.min.js'></script>
+        <script type="text/javascript" src='/asset/jquery-1.9.0.min.js'></script>        
+        <script type="text/javascript" src='/asset/underscore-min.js'></script>
         <script type="text/javascript" src='/asset/iscroll.js'></script>
+        <script type = "text/javascript" src = '/asset/mustache.js' ></script>
         <script type = "text/javascript" src = '/javascripts/bump.js' ></script>
+
     </head>
     <body>
         <header class="header">
@@ -16,7 +19,7 @@
         </header>
         <section id="content-wrapper">
         <div class="content">
-            <div class="tickets">
+            <div class="tickets" id="tickets">
 
                 <div class="ticket-head-sep">
                     <span class="item-num"><i>2</i> 条团购券</span>
@@ -201,6 +204,114 @@
             </div>
         </div>
         </footer>
+        <div class="overlay"></div>
+        <div class="tip-wrapper">
+            <div id="tip-info" class="tip-info">
+            </div>
+        </div>
+
+        <script type="text/template" id="tplTicketInfo">
+            <div class="ticket-head-sep">
+                <span class="item-num"><i>2</i> 条团购券</span>
+                <span class="item-from">来自 <i>Kane Xiao</i></span>
+            </div>
+            {{#serials}}
+            <div class="ticket-item">
+                <div class="ticket-info">
+                    <div class="ticket-title clearfix">
+                        <h4 class="fl">毒犯国际万裕影城</h4>
+                        <span class="fr">2013-01-30</span>
+                    </div>
+
+                    <div class="ticket-extral-info clearfix">
+                        <span class="ticket-no">券号：{{serial}}</span>
+                        <span class="ticket-vertify-status {{statusClass}}">{{resultInfo}}</span>
+                    </div>
+                </div>
+                <div class="line"></div>
+            </div>
+            {{/serials}}
+            <div class="ticket-end-sep">
+                <span class="item-time">------ <i>2013年01月30日 21:38</i> ------</span>
+            </div>
+        </script>
+        <script type="text/template" id="tplSearching">
+            <div class="line"></div>
+            <div class="info-detail">
+                <h2>搜索中 ...</h2>
+            </div>
+            <div class="line"></div>
+        </script>
+        <!-- 网络连接问题 -->
+        <script type="text/template" id="tplNetWorkError">
+            <div class="line"></div>
+            <div class="info-detail">            
+                <h2>哎呀，连接问题</h2>
+                <div class="info-img">
+                    <img src="/images/wave-error.png" alt="检查信号强度并再试一次" />
+                </div>
+                <p class="info-text">检查信号强度并再试一次</p>
+            </div>
+            <div class="line"></div>
+            <button type="button" class="btn">确定</button>
+        </script>
+        <!-- 上传确认对方信息 -->
+        <script type="text/template" id="tplConfirmInfo">
+            <div class="line"></div>
+                <div class="info-detail">            
+                    <div class="upload-item clearfix">
+                        <span class="upload-item-img fl"><img src="/images/img-usr-conn.png" /></span>
+                        <div class="item-info">
+                            <h3 class="upload-item-name">{{name}}</h3>
+                            <p class="upload-item-detail">地址：上海市长宁区中山公园凯旋路111号</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="line"></div>
+                <div class="btns">
+                    <button type="button" class="btn btn-conn">连接</button>
+                    <button type="button" class="btn btn-cancel">取消</button>
+                </div>
+        </script>
+        <!-- 提示1 -->
+        <script type="text/template" id="tplTip1">
+            <div class="line"></div>
+            <div class="info-detail">            
+                <h2>请再试一次 </h2>
+                <div class="info-img">
+                    <img src="/images/img-usr-conn.png" alt="提示#1：好的碰接是拳头轻轻的碰击" />
+                </div>
+                <p class="info-text">提示#1：好的碰接是拳头轻轻的碰击</p>
+            </div>
+            <div class="line"></div>
+            <button type="button" class="btn">确定</button>
+        </script>
+        <!-- 提示2 -->
+        <script type="text/template" id="tplTip2">
+            <div class="line"></div>
+            <div class="info-detail">            
+                <h2>请再试一次 </h2>
+                <div class="info-img">
+                    <img src="/images/img-usr-conn.png" alt="提示#2：不要一个人碰接" />
+                </div>
+                <p class="info-text">提示#2：不要一个人碰接</p>
+            </div>
+            <div class="line"></div>
+            <button type="button" class="btn">确定</button>
+        </script>
+        <!-- 提示3 -->
+        <script type="text/template" id="tplTip3">
+            <div class="line"></div>
+            <div class="info-detail">            
+                <h2>请再试一次 </h2>
+                <div class="info-img">
+                    <img src="/images/img-usr-conn.png" alt="提示#3：确保您与朋友同时在碰接" />
+                </div>
+                <p class="info-text">提示#3：确保您与朋友同时在碰接</p>
+            </div>
+            <div class="line"></div>
+            <button type="button" class="btn">确定</button>
+        </script>
         <script type="text/javascript" src='/javascripts/shop.js'></script>
     </body>
 </html>

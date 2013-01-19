@@ -1,13 +1,13 @@
-module.export = Queue;
+module.exports = Queue;
 
-function Queue(id, lat, lon, type, serial, handle) {
-    this.id = id; //唯一的ID
-    this.latitude = lat; //经度
-    this.longtitude = lon; //纬度
+function Queue(opt) {
+    this.id = opt.id; //唯一的ID
+    this.latitude = opt.lat; //经度
+    this.longtitude = opt.lon; //纬度
     this.time = new Date(); //接收时间
-    this.type = type; //客户端类型 customer,shop
-    this.serial = serial; //团购券 Array()
-    this.socketHandle = handle; //SocketIoHandle
+    this.type = opt.type; //客户端类型 customer,shop
+    this.serial = opt.serial; //团购券 Array()
+    this.socketHandle = opt.handle; //SocketIoHandle
     this.findResult = null; //[id]:other id, "error":find error
     this.confirmStatus = null; //"yes", "no"
     this.confirmResult = null; //"ok"
