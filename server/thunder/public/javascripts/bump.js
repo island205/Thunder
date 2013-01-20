@@ -5,6 +5,7 @@
 
     var ifBumpThreshold = 2.5;
     var speedArray = new Array();
+    var arrayLength = 20;
     var timeSpan = 20;
     var watchID = null;
     var geoWatchID = null;
@@ -13,9 +14,13 @@
     var longitude = 0;
     var altitude = 0;
 
+    function initArray(){
+        speedArray = new Array();
+    }
+
     function startBump(onBump) {
         onBumpToDo = onBump;
-
+        initArray();
         var options = {
             frequency: timeSpan
         };
@@ -27,9 +32,12 @@
     }
 
     function stopBump() {
+        initArray();
         if (watchID) {
-            navigator.accelerometer.clearWatch(watchID);
+            navigator.accelerometer.clearWatch(watchID)
+            navigator.geolocation.clearWatch(geoWatchID);
             watchID = null;
+            geoWatchID = null;
         }
     }
 
@@ -49,7 +57,10 @@
     function onError() {}
 
     function mean(a) {
-        var sum = eval(a.join(" + "));
+        if (a.length === 0) {
+            return 0
+        }
+        var sum = eval(a.join(' + '));
         return sum / a.length;
     }
 
@@ -72,17 +83,14 @@
     function addSpeed(x, y, z) {
         var speed = getSpeed(x, y, z);
         speedArray.push(speed);
-        if (speedArray.length > 10) {
+        if (speedArray.length > arrayLength) {
             speedArray.shift();
         }
     }
 
     function isBump() {
         var s = stdDev();
-        var bump = s > ifBumpThreshold;
-        if (bump) {
-            speedArray = new Array();
-        }
+        var bump =(speedArray.length >= arrayLength) && (s > ifBumpThreshold) && (latitude != 0) && (longitude != 0);
         return bump;
     }
 

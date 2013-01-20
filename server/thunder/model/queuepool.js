@@ -64,12 +64,14 @@ QueuePool.prototype.findBumperById = function(id) {
 }
 
 QueuePool.prototype.serialOperateResult = function(serial) {
-    var status = [];
+    var status = {}, tmp;
+    status.serials = [];
     for(var i = 0; i < serial.length; i++) {
-
-        status.push([serial[i], function() {
-            return Math.random() < 0.5 ? "成功" : "失败";
-        }()]);
+        tmp = {
+            serial: serial[i],
+            result:  Math.random() < 0.5
+        };
+        status.serials.push(tmp);
     }
     return status;
 }
@@ -91,14 +93,15 @@ QueuePool.prototype.findAPair = function(action) {
         }
     }
     if(result.length != 0) {
-        action(result[0], result[1]);
+        var cust = result[0].type == 'customer' ? result[0] : result[1];
+        action(result[0], result[1],this.serialOperateResult(cust.serial));
         this.remove(result[0])
         this.remove(result[1])
     }
 }
 
 QueuePool.prototype.findBumper = function(action) {
-    var MIN_TIMESPAN = 60000;
+    var MIN_TIMESPAN = 10000;
     var MIN_DISTANCE = 1000;
     var FIND_MAX = 100;
 

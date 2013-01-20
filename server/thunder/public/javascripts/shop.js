@@ -68,12 +68,10 @@
             $userInfo = $('.tip-info')
 
             $userInfo.find('.btn-conn').bind('click', function () {
-                alert('confirm')
                 socket.emit('confirm', { id: data.id, result: true })                
             })
 
             $userInfo.find('.btn-cancel').bind('click', function () {
-                alert('cancel')
                 socket.emit('confirm', { id: data.id, result: false })
                 overlay.hide()
                 B.startBump(onBump);
@@ -81,9 +79,8 @@
         })
 
         socket.on('over', function (data) {            
-            alert('over')
             var 
-            tplTicketInfo = $('#tplTicketInfo'),
+            tplTicketInfo = $('#tplTicketInfo').html(),
             classMap = {
                 0: 'ico-vertify-status-ok',
                 1: 'ico-vertify-status-error'
@@ -94,7 +91,11 @@
                 item.resultInfo = item.result ? '验证成功' : '验证失败'
             })
 
-            $('#tickets').append(Mustache.to_html(tplTicketInfo, data));
+            $('#tickets').prepend(Mustache.to_html(tplTicketInfo, data));
+            overlay.hide()
+            setTimeout(function () {
+                B.startBump(onBump)
+            }, 2000)
         })     
 
         new iScroll('content-wrapper', {
@@ -114,8 +115,8 @@
 
             overlay.show('searching')
 
-            socket.emit('bump', d)
             B.stopBump()
+            socket.emit('bump', d)
 
             // TODO:
             // 1. 获取选择的数据发送给服务器

@@ -105,12 +105,10 @@
             $shopInfo = $('.tip-info')
 
             $shopInfo.find('.btn-conn').bind('click', function () {
-                alert('confirm')
                 socket.emit('confirm', { id: data.id, result: true })
             })
 
             $shopInfo.find('.btn-cancel').bind('click', function () {
-                alert('cancel')
                 socket.emit('confirm', { id: data.id, result: false })
                 overlay.hide()
                 B.startBump(onBump);
@@ -118,7 +116,6 @@
         })
 
         socket.on('over', function (data) {
-            alert('over')
             var 
             ticketEls = tickets.els(),
             classMap = {
@@ -127,8 +124,17 @@
             }
 
             _.each(data.serials, function (item) {
-                $(ticketEls[item.serial]).find('.ticket-vertify-status').addClass(classMap[item.result ? 0 : 1]);
+                $(ticketEls[item.serial]).removeClass('selected');
+                var $el = $(ticketEls[item.serial]).find('.ticket-vertify-status');
+
+                $el[0].className="ticket-vertify-status " + classMap[item.result ? 0 : 1]
+                $el.text(item.result ? '验证成功' : '验证失败')      
             })
+
+            overlay.hide()
+            setTimeout(function () {
+                B.startBump(onBump)
+            }, 2000)
         })
 
         new iScroll('content-wrapper', {
@@ -136,9 +142,6 @@
             hScrollbar: false,
             checkDOMChanges: false
         });
-
-        
-        
 
         function onBump(latitude, longitude, bumpTime) {
             var d = {
@@ -151,8 +154,8 @@
 
             overlay.show('searching')
 
-            socket.emit('bump', d)
             B.stopBump()
+            socket.emit('bump', d)
 
             // TODO:
             // 1. 获取选择的数据发送给服务器

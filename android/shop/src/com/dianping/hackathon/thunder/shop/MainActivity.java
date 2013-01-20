@@ -9,6 +9,6 @@ public class MainActivity extends DroidGap{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.loadUrl("http://tech-l-cunzhi.dianpingoa.com:3000/shop");
+        super.loadUrl("http://192.168.1.90:3000/shop");
     }
 }
