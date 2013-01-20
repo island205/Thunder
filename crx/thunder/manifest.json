@@ -1,0 +1,18 @@
+{
+    "name": "Thunder",
+    "version": "0.1.0",
+    "manifest_version": 2,
+
+    "description": "thunder for e.dianping.com",
+
+    "content_scripts": [
+        {
+            "matches": ["http://e.dianping.com/*"],
+            "js": ["socket.io.js","jquery-1.9.0.min.js", "thunder.js"]
+        }
+    ],
+    "permissions": [
+        "http://192.168.1.90:3000/",
+        "geolocation"
+    ]
+}

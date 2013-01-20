@@ -160,6 +160,7 @@ QueuePool.prototype.findBumper = function(action) {
             var nearestDis = 0;
             for(var i = findList.length - 1; i >= 0; i--) {
                 var dis = queue.getDistance(findList[i]);
+                console.log(dis)
                 if(dis < MIN_DISTANCE) {
                     if(nearest == null || dis < nearestDis) {
                         nearest = findList[i];
