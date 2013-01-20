@@ -74,7 +74,23 @@ queuePool.startFindBumperWorker(function(q1,q2){
 });
 
 queuePool.startFindAPairWorker(function(q1,q2,serial){
-    console.log('over: ' + q1.id + ' & ' + q2.id)
-    q1.socketHandle.emit('over', serial);
-    q2.socketHandle.emit('over', serial);
+
+    var
+    customer,
+    shop = q1.type === 'shop' ? q1 : q2
+    if (shop === q1) {
+        customer = q2
+    } else {
+        customer = q1
+    }
+    if (shop.isEDIANPINGCOM) {
+        shop.socketHandle.emit('verify', serial)
+        shop.socketHandle.on('verify', function (data) {
+            customer.socketHandle.emit('over', data)
+        })
+    } else {
+        console.log('over: ' + q1.id + ' & ' + q2.id)
+        q1.socketHandle.emit('over', serial);
+        q2.socketHandle.emit('over', serial);
+    }
 });

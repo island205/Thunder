@@ -7,6 +7,7 @@ function Queue(opt) {
     this.time = new Date(); //接收时间
     this.type = opt.type; //客户端类型 customer,shop
     this.serial = opt.serial; //团购券 Array()
+    this.isEDIANPINGCOM = opt.isEDIANPINGCOM,
     this.socketHandle = opt.handle; //SocketIoHandle
     this.findResult = null; //[id]:other id, "error":find error
     this.confirmStatus = null; //"yes", "no"
