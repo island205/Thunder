@@ -1,7 +1,5 @@
 (function (WIN) {
-    var
-    B = {}
-    WIN.B = B
+    var B = WIN.B = WIN.B || {}
 
     var ifBumpThreshold = 2.5;
     var speedArray = new Array();
@@ -94,7 +92,9 @@
         return bump;
     }
 
-    B.startBump = startBump
-    B.stopBump = stopBump
+    B.bump = {
+        start: startBump,
+        stop: stopBump
+    }
 })(window);
 

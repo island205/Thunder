@@ -1,14 +1,8 @@
 (function (WIN) {
     var B = WIN.B || {};
 
-    _.templateSettings = {
-      interpolate : /\{\{(.+?)\}\}/g
-    };
-
     $(function () {
         var
-        DOC = document,
-        fNOP = function () {},
         overlay
 
         overlay = (function () {
@@ -40,7 +34,7 @@
                 },
                 show: function (tpl, data) {
                     if (data) {
-                        tipInfo.html(_.template(this.tpls[tpl])(data))
+                        tipInfo.html(Mustache.to_html(this.tpls[tpl], data))
                     } else {
                         tipInfo.html(this.tpls[tpl])
                     }

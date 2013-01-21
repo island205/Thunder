@@ -1,172 +1,195 @@
-(function (WIN){
-    var B = WIN.B || {};
-
-    _.templateSettings = {
-      interpolate : /\{\{(.+?)\}\}/g
-    };
-
-    $(function () {
+(function (WIN, UDF){
+    var B = WIN.B = WIN.B || {}
+    
+    B.overlay = (function () {
         var
-        DOC = document,
-        fNOP = function () {},
-        overlay,
-        tickets
+        $tipWrapper,
+        $tipInfo,
+        $mask,
+        __show
 
-        overlay = (function () {
-            var
-            tipWrapper = $('.tip-wrapper'),
-            tipInfo = $('.tip-info'),
-            overlay = $('.overlay')
+        __show = function () {
+            $mask.show()
+            $tipWrapper.slideDown()
+        }
 
-            tipWrapper.hide()
-            overlay.hide()
+        return {
+            init: function () {
+                $tipWrapper = $('.tip-wrapper')
+                $tipInfo = $('.tip-info')
+                $mask = $('.overlay')
 
-            return {
-                tpls: {
-                    searching: $('#tplSearching').html(),
-                    netWorkError: $('#tplNetWorkError').html(),
-                    confirmInfo: $('#tplConfirmInfo').html(),
-                    tip1: $('#tplTip1').html(),
-                    tip2: $('#tplTip2').html(),
-                    tip3: $('#tplTip3').html()
-                },
+                $tipWrapper.hide()
+                $mask.hide()
+            },
 
-                __show: function () {
-                    overlay.show()                 
-                    tipWrapper.slideDown()      
-                },
-                hide: function () {
-                    tipWrapper.hide()
-                    overlay.hide()    
-                },
-                show: function (tpl, data) {
-                    if (data) {
-                        tipInfo.html(_.template(this.tpls[tpl])(data))
-                    } else {
-                        tipInfo.html(this.tpls[tpl])
-                    }
-                    
-                    this.__show()
-                }
-            };
-        })();
+            tpls: {
+                searching: $('#tplSearching').html(),
+                netWorkError: $('#tplNetWorkError').html(),
+                confirmInfo: $('#tplConfirmInfo').html(),
+                tip1: $('#tplTip1').html(),
+                tip2: $('#tplTip2').html(),
+                tip3: $('#tplTip3').html()
+            },
+            
+            hide: function () {
+                $tipWrapper.hide()
+                $mask.hide()
+            },
 
-        tickets = (function () {
-            var $tickets = $('.ticket-item'),
-                serials = [],
-                els = {}
-
-            $tickets.click(function () {
-                var serial = $(this).attr('data-serial');
-
-                $(this).toggleClass('selected')
-
-                if ($(this).hasClass('selected')) {
-                    serials.push(serial)
-                    els[serial] = this
+            show: function (tpl, data) {
+                if (data) {
+                    $tipInfo.html(Mustache.to_html(this.tpls[tpl], data))
                 } else {
-                    serials = _.without(serials, serial)
-                    delete els[serial]
+                    $tipInfo.html(this.tpls[tpl])
                 }
-            })
-
-            return {
-                get: function () {
-                    return serials
-                },
-                els: function () {
-                    return els
-                }
+                
+                __show()
             }
-        })();
+        }
+    })()
 
-        // socket.io
+    B.ticketer = (function () {
         var
-        socket
+        $tickets,
+        serials = [],
+        els = {}
 
-        var
-        loginTime
+        return {
+            init: function () {
+                $tickets = $('.ticket-item')
 
-        socket = io.connect(window.location.origin)
+                $tickets.click(function () {
+                    var serial = $(this).attr('data-serial')
+
+                    $(this).toggleClass('selected')
+
+                    if ($(this).hasClass('selected')) {
+                        serials.push(serial)
+                        els[serial] = this
+                    } else {                        
+                        serials = serials.splice(serials.indexOf(serial), 1)
+                        els[serial] = UDF
+                    }
+                })
+            },
+
+            get: function () {
+                return serials
+            },
+
+            els: function () {
+                return els
+            }
+        }
+    })()
+
+    // connect socket server
+    B.socket = (function () {
+        var socket = io.connect(window.location.origin),
+            key
 
         socket.on('connected', function (data) {
-            loginTime = new Date(data)
+            socket.__lgt = new Date(data).getTime().toString()
         })
 
-        // socket.on('bump', function (data) {
-        //     console.log(data)
-        // })
-        
-        socket.on('find', function (data) {
-            var $shopInfo
+        // 监听自定义 socket 事件 
+        for ( key in B.socketHandler) {
+            socket.on(key, B.socketHandler[key])
+        }        
 
-            overlay.show('confirmInfo', data)
+        return socket
+    })()
 
-            $shopInfo = $('.tip-info')
+    B.socketHandler = (function () {
+        return {
+            find: function (data) {
+                var $shopInfo
 
-            $shopInfo.find('.btn-conn').bind('click', function () {
-                socket.emit('confirm', { id: data.id, result: true })
-            })
+                B.overlay.show('confirmInfo', data)
 
-            $shopInfo.find('.btn-cancel').bind('click', function () {
-                socket.emit('confirm', { id: data.id, result: false })
-                overlay.hide()
-                B.startBump(onBump);
-            })
-        })
+                $shopInfo = $('.tip-info')
 
-        socket.on('over', function (data) {
-            var 
-            ticketEls = tickets.els(),
-            classMap = {
-                0: 'ico-vertify-status-ok',
-                1: 'ico-vertify-status-error'
+                $shopInfo.find('.btn-conn').bind('click', function () {
+                    B.socketTrigger.confirm(true, { id: data.id, result: true })
+                })
+
+                $shopInfo.find('.btn-cancel').bind('click', function () {
+                    B.socketTrigger.confirm(true, { id: data.id, result: false })
+                })
+            },
+
+            over: function (data) {
+                var ticketEls = tickets.els(),
+                    classMap = {
+                        0: 'ico-vertify-status-ok',
+                        1: 'ico-vertify-status-error'
+                    }
+
+                _.each(data.serials, function (item) {
+                    var $el = $(ticketEls[item.serial]).find('.ticket-vertify-status')
+
+                    $(ticketEls[item.serial]).removeClass('selected')                    
+
+                    $el[0].className="ticket-vertify-status " + classMap[item.result ? 0 : 1]
+                    $el.text(item.result ? '验证成功' : '验证失败')      
+                })
+
+                B.overlay.hide()
+
+                setTimeout(function () {
+                    B.bump.start(B.socketTrigger.bump)
+                }, 2000)
             }
+        }
+    })()
 
-            _.each(data.serials, function (item) {
-                $(ticketEls[item.serial]).removeClass('selected');
-                var $el = $(ticketEls[item.serial]).find('.ticket-vertify-status');
+    B.socketTrigger = (function () {
+        return {
+            bump: function (lat, lon, bpt) {
+                var d = {
+                    id: B.socket.__lgt + bpt,
+                    lat: lat,
+                    lon: lon,
+                    type: 'customer',
+                    serial: B.ticketer.get()
+                }
 
-                $el[0].className="ticket-vertify-status " + classMap[item.result ? 0 : 1]
-                $el.text(item.result ? '验证成功' : '验证失败')      
-            })
+                B.overlay.show('searching')
 
-            overlay.hide()
-            setTimeout(function () {
-                B.startBump(onBump)
-            }, 2000)
-        })
+                // 禁用 bump
+                B.bump.stop()
+                B.socket.emit('bump', d)
+            },
 
+            confirm: function (flag, data) {
+                if (flag) {
+                    B.socket.emit('confirm', data)
+                } else {
+                    B.socket.emit('confirm', data)
+                    B.overlay.hide()
+                    B.bump.start(this.bump);
+                }
+            }
+        }
+    })()
+
+    B.deviceReady = function () {
+        // 启用 bump
+        B.bump.start(B.socketTrigger.bump);
+    }
+
+    $(function () {
         new iScroll('content-wrapper', {
             hScroll: false,
             hScrollbar: false,
             checkDOMChanges: false
         });
 
-        function onBump(latitude, longitude, bumpTime) {
-            var d = {
-                id: loginTime.getTime() + bumpTime,
-                lat: latitude,
-                lon: longitude,
-                type: 'customer',
-                serial: tickets.get()
-            }
+        B.overlay.init()
+        B.ticketer.init()
 
-            overlay.show('searching')
-
-            B.stopBump()
-            socket.emit('bump', d)
-
-            // TODO:
-            // 1. 获取选择的数据发送给服务器
-            
-        }
-
-        function onDeviceReady() {
-            B.startBump(onBump);
-        }
-
-        DOC.addEventListener("deviceready", onDeviceReady, false);
+        DOC.addEventListener("deviceready", B.deviceReady, false);
     })
 })(window);
 
