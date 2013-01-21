@@ -1,105 +1,5 @@
 (function (WIN, UDF){
-    var B = WIN.B = WIN.B || {}
-    
-    B.overlay = (function () {
-        var
-        $tipWrapper,
-        $tipInfo,
-        $mask,
-        __show
-
-        __show = function () {
-            $mask.show()
-            $tipWrapper.slideDown()
-        }
-
-        return {
-            init: function () {
-                $tipWrapper = $('.tip-wrapper')
-                $tipInfo = $('.tip-info')
-                $mask = $('.overlay')
-
-                $tipWrapper.hide()
-                $mask.hide()
-            },
-
-            tpls: {
-                searching: $('#tplSearching').html(),
-                netWorkError: $('#tplNetWorkError').html(),
-                confirmInfo: $('#tplConfirmInfo').html(),
-                tip1: $('#tplTip1').html(),
-                tip2: $('#tplTip2').html(),
-                tip3: $('#tplTip3').html()
-            },
-            
-            hide: function () {
-                $tipWrapper.hide()
-                $mask.hide()
-            },
-
-            show: function (tpl, data) {
-                if (data) {
-                    $tipInfo.html(Mustache.to_html(this.tpls[tpl], data))
-                } else {
-                    $tipInfo.html(this.tpls[tpl])
-                }
-                
-                __show()
-            }
-        }
-    })()
-
-    B.ticketer = (function () {
-        var
-        $tickets,
-        serials = [],
-        els = {}
-
-        return {
-            init: function () {
-                $tickets = $('.ticket-item')
-
-                $tickets.click(function () {
-                    var serial = $(this).attr('data-serial')
-
-                    $(this).toggleClass('selected')
-
-                    if ($(this).hasClass('selected')) {
-                        serials.push(serial)
-                        els[serial] = this
-                    } else {                        
-                        serials = serials.splice(serials.indexOf(serial), 1)
-                        els[serial] = UDF
-                    }
-                })
-            },
-
-            get: function () {
-                return serials
-            },
-
-            els: function () {
-                return els
-            }
-        }
-    })()
-
-    // connect socket server
-    B.socket = (function () {
-        var socket = io.connect(window.location.origin),
-            key
-
-        socket.on('connected', function (data) {
-            socket.__lgt = new Date(data).getTime().toString()
-        })
-
-        // 监听自定义 socket 事件 
-        for ( key in B.socketHandler) {
-            socket.on(key, B.socketHandler[key])
-        }        
-
-        return socket
-    })()
+    var B = WIN.B || {}
 
     B.socketHandler = (function () {
         return {
@@ -115,18 +15,19 @@
                 })
 
                 $shopInfo.find('.btn-cancel').bind('click', function () {
-                    B.socketTrigger.confirm(true, { id: data.id, result: false })
+                    B.socketTrigger.confirm(false, { id: data.id, result: false })
                 })
             },
 
             over: function (data) {
-                var ticketEls = tickets.els(),
+                var ticketEls = B.ticketer.els(),
                     classMap = {
                         0: 'ico-vertify-status-ok',
                         1: 'ico-vertify-status-error'
                     }
 
-                _.each(data.serials, function (item) {
+
+                data.serials.forEach(function (item) {
                     var $el = $(ticketEls[item.serial]).find('.ticket-vertify-status')
 
                     $(ticketEls[item.serial]).removeClass('selected')                    
@@ -180,6 +81,8 @@
     }
 
     $(function () {
+        var key
+
         new iScroll('content-wrapper', {
             hScroll: false,
             hScrollbar: false,
@@ -189,7 +92,12 @@
         B.overlay.init()
         B.ticketer.init()
 
-        DOC.addEventListener("deviceready", B.deviceReady, false);
+        // 监听自定义 socket 事件 
+        for ( key in B.socketHandler) {
+            B.socket.on(key, B.socketHandler[key])
+        }
+
+        document.addEventListener("deviceready", B.deviceReady, false);
     })
 })(window);
 

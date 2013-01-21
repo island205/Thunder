@@ -1,129 +1,100 @@
 (function (WIN) {
     var B = WIN.B || {};
 
-    $(function () {
-        var
-        overlay
+    B.socketHandler = (function () {
+        return {
+            find: function (data) {
+                var $shopInfo
 
-        overlay = (function () {
-            var
-            tipWrapper = $('.tip-wrapper'),
-            tipInfo = $('.tip-info'),
-            overlay = $('.overlay')
+                B.overlay.show('confirmInfo', data)
 
-            tipWrapper.hide()
-            overlay.hide()
+                $shopInfo = $('.tip-info')
 
-            return {
-                tpls: {
-                    searching: $('#tplSearching').html(),
-                    netWorkError: $('#tplNetWorkError').html(),
-                    confirmInfo: $('#tplConfirmInfo').html(),
-                    tip1: $('#tplTip1').html(),
-                    tip2: $('#tplTip2').html(),
-                    tip3: $('#tplTip3').html()
-                },
+                $shopInfo.find('.btn-conn').bind('click', function () {
+                    B.socketTrigger.confirm(true, { id: data.id, result: true })
+                })
 
-                __show: function () {
-                    overlay.show()               
-                    tipWrapper.slideDown()      
-                },
-                hide: function () {
-                    tipWrapper.hide()
-                    overlay.hide()    
-                },
-                show: function (tpl, data) {
-                    if (data) {
-                        tipInfo.html(Mustache.to_html(this.tpls[tpl], data))
-                    } else {
-                        tipInfo.html(this.tpls[tpl])
+                $shopInfo.find('.btn-cancel').bind('click', function () {
+                    B.socketTrigger.confirm(false, { id: data.id, result: false })
+                })
+            },
+
+            over: function (data) {
+                var tplTicketInfo = $('#tplTicketInfo').html(),
+                    classMap = {
+                        0: 'ico-vertify-status-ok',
+                        1: 'ico-vertify-status-error'
                     }
-                    
-                    this.__show()
-                }
-            };
-        })();
 
-        // socket.io
-        var
-        loginTime
+                data.serials.forEach(function (item) {
+                    item.statusClass = classMap[item.result ? 0: 1]
+                    item.resultInfo = item.result ? '验证成功' : '验证失败'
+                })
 
-        socket = io.connect(window.location.origin)
+                $('#tickets').prepend(Mustache.to_html(tplTicketInfo, data));
 
-        socket.on('connected', function (data) {
-            loginTime = new Date(data)
-        })
+                B.overlay.hide()
 
-        socket.on('find', function (data) {
-            var $userInfo
-
-            overlay.show('confirmInfo', data)
-
-            $userInfo = $('.tip-info')
-
-            $userInfo.find('.btn-conn').bind('click', function () {
-                socket.emit('confirm', { id: data.id, result: true })                
-            })
-
-            $userInfo.find('.btn-cancel').bind('click', function () {
-                socket.emit('confirm', { id: data.id, result: false })
-                overlay.hide()
-                B.startBump(onBump);
-            })
-        })
-
-        socket.on('over', function (data) {            
-            var 
-            tplTicketInfo = $('#tplTicketInfo').html(),
-            classMap = {
-                0: 'ico-vertify-status-ok',
-                1: 'ico-vertify-status-error'
+                setTimeout(function () {
+                    B.bump.start(B.socketTrigger.bump)
+                }, 2000)
             }
+        }
+    })()
 
-            _.each(data.serials, function(item) {
-                item.statusClass = classMap[item.result ? 0: 1]
-                item.resultInfo = item.result ? '验证成功' : '验证失败'
-            })
+    B.socketTrigger = (function () {
+        return {
+            bump: function (lat, lon, bpt) {
+                var d = {
+                    id: B.socket.__lgt + bpt,
+                    lat: lat,
+                    lon: lon,
+                    type: 'shop',
+                    serial: B.ticketer.get()
+                }
 
-            $('#tickets').prepend(Mustache.to_html(tplTicketInfo, data));
-            overlay.hide()
-            setTimeout(function () {
-                B.startBump(onBump)
-            }, 2000)
-        })     
+                B.overlay.show('searching')
+
+                // 禁用 bump
+                B.bump.stop()
+                B.socket.emit('bump', d)
+            },
+
+            confirm: function (flag, data) {
+                if (flag) {
+                    B.socket.emit('confirm', data)
+                } else {
+                    B.socket.emit('confirm', data)
+                    B.overlay.hide()
+                    B.bump.start(this.bump);
+                }
+            }
+        }
+    })()
+
+    B.deviceReady = function () {
+        // 启用 bump
+        B.bump.start(B.socketTrigger.bump);
+    }
+
+    $(function () {
+        var key
 
         new iScroll('content-wrapper', {
             hScroll: false,
             hScrollbar: false,
             checkDOMChanges: false
-        });
-        
+        })
 
-        function onBump(latitude, longitude, bumpTime) {
-           var d = {
-                id: loginTime.getTime() + bumpTime,
-                lat: latitude,
-                lon: longitude,
-                type: 'shop'
-            }
+        B.overlay.init()
+        B.ticketer.init()
 
-            overlay.show('searching')
-
-            B.stopBump()
-            socket.emit('bump', d)
-
-            // TODO:
-            // 1. 获取选择的数据发送给服务器
-            
+        // 监听自定义 socket 事件 
+        for ( key in B.socketHandler) {
+            B.socket.on(key, B.socketHandler[key])
         }
 
-        function onDeviceReady() {
-            B.startBump(onBump);
-        }
-
-        DOC.addEventListener("deviceready", onDeviceReady, false);
+        document.addEventListener("deviceready", B.deviceReady, false);
     })
 
 })(window);
-
-

@@ -18,7 +18,7 @@ var express = require('express')
 var app = express();
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 3000);
+  app.set('port', 9999);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
   app.use(express.favicon());
@@ -74,7 +74,6 @@ queuePool.startFindBumperWorker(function(q1,q2){
 });
 
 queuePool.startFindAPairWorker(function(q1,q2,serial){
-
     var
     customer,
     shop = q1.type === 'shop' ? q1 : q2
