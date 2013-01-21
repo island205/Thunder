@@ -11,205 +11,33 @@
         <script type="text/javascript" src='/asset/iscroll.js'></script>
         <script type = "text/javascript" src = '/asset/mustache.js' ></script>
         <script type = "text/javascript" src = '/javascripts/bump.js' ></script>
-
     </head>
     <body>
         <header class="header">
-        <h1 class="fn">验证团购券</h1>
+            <h1 class="fn">验证团购券</h1>
         </header>
         <section id="content-wrapper">
-        <div class="content">
-            <div class="tickets" id="tickets">
-
-                <!-- <div class="ticket-head-sep">
-                    <span class="item-num"><i>2</i> 条团购券</span>
-                    <span class="item-from">来自 <i>Kane Xiao</i></span>
-                </div>
-                <div class="ticket-item">
-                    <div class="ticket-info">
-                        <div class="ticket-title clearfix">
-                            <h4 class="fl">毒犯国际万裕影城</h4>
-                            <span class="fr">2013-01-30</span>
-                        </div>
-
-                        <div class="ticket-extral-info clearfix">
-                            <span class="ticket-no">券号：9646879567</span>
-                            <span class="ticket-vertify-status ico-vertify-status-ok">验证成功</span>
-                        </div>
-                    </div>
-                    <div class="line"></div>
-                </div>
-                <div class="ticket-item">
-                    <div class="ticket-info">
-                        <div class="ticket-title clearfix">
-                            <h4 class="fl">毒犯国际万裕影城</h4>
-                            <span class="fr">2013-01-30</span>
-                        </div>
-
-                        <div class="ticket-extral-info clearfix">
-                            <span class="ticket-no">券号：9646879567</span>
-                            <span class="ticket-vertify-status ico-vertify-status-ok">验证成功</span>
-                        </div>
-                    </div>
-                    <div class="line"></div>
-                </div>
-                <div class="ticket-end-sep">
-                    <span class="item-time">------ <i>2013年01月30日 21:38</i> ------</span>
-                </div>
-
-                <div class="ticket-head-sep">
-                    <span class="item-num"><i>2</i> 条团购券</span>
-                    <span class="item-from">来自 <i>Kane Xiao</i></span>
-                </div>
-                <div class="ticket-item">
-                    <div class="ticket-info">
-                        <div class="ticket-title clearfix">
-                            <h4 class="fl">毒犯国际万裕影城</h4>
-                            <span class="fr">2013-01-30</span>
-                        </div>
-
-                        <div class="ticket-extral-info clearfix">
-                            <span class="ticket-no">券号：9646879567</span>
-                            <span class="ticket-vertify-status ico-vertify-status-ok">验证成功</span>
-                        </div>
-                    </div>
-                    <div class="line"></div>
-                </div>
-                <div class="ticket-end-sep">
-                    <span class="item-time">------ <i>2013年01月30日 21:38</i> ------</span>
-                </div>
-
-                <div class="ticket-head-sep">
-                    <span class="item-num"><i>2</i> 条团购券</span>
-                    <span class="item-from">来自 <i>Kane Xiao</i></span>
-                </div>
-                <div class="ticket-item">
-                    <div class="ticket-info">
-                        <div class="ticket-title clearfix">
-                            <h4 class="fl">毒犯国际万裕影城</h4>
-                            <span class="fr">2013-01-30</span>
-                        </div>
-
-                        <div class="ticket-extral-info clearfix">
-                            <span class="ticket-no">券号：9646879567</span>
-                            <span class="ticket-vertify-status ico-vertify-status-error">验证成功</span>
-                        </div>
-                    </div>
-                    <div class="line"></div>
-                </div>
-                <div class="ticket-item">
-                    <div class="ticket-info">
-                        <div class="ticket-title clearfix">
-                            <h4 class="fl">毒犯国际万裕影城</h4>
-                            <span class="fr">2013-01-30</span>
-                        </div>
-
-                        <div class="ticket-extral-info clearfix">
-                            <span class="ticket-no">券号：9646879567</span>
-                            <span class="ticket-vertify-status ico-vertify-status-ok">验证成功</span>
-                        </div>
-                    </div>
-                    <div class="line"></div>
-                </div>
-                <div class="ticket-item selected">
-                    <div class="ticket-info">
-                        <div class="ticket-title clearfix">
-                            <h4 class="fl">毒犯国际万裕影城</h4>
-                            <span class="fr">2013-01-30</span>
-                        </div>
-
-                        <div class="ticket-extral-info clearfix">
-                            <span class="ticket-no">券号：9646879567</span>
-                            <span class="ticket-vertify-status ico-vertify-status-waiting">待验证</span>
-                        </div>
-                    </div>
-                    <div class="line"></div>
-                </div>
-                <div class="ticket-end-sep">
-                    <span class="item-time">------ <i>2013年01月30日 21:38</i> ------</span>
-                </div>
-
-                <div class="ticket-head-sep">
-                    <span class="item-num"><i>2</i> 条团购券</span>
-                    <span class="item-from">来自 <i>Kane Xiao</i></span>
-                </div>
-                <div class="ticket-item">
-                    <div class="ticket-info">
-                        <div class="ticket-title clearfix">
-                            <h4 class="fl">毒犯国际万裕影城</h4>
-                            <span class="fr">2013-01-30</span>
-                        </div>
-
-                        <div class="ticket-extral-info clearfix">
-                            <span class="ticket-no">券号：9646879567</span>
-                            <span class="ticket-vertify-status ico-vertify-status-ok">验证成功</span>
-                        </div>
-                    </div>
-                    <div class="line"></div>
-                </div>
-                <div class="ticket-item selected">
-                    <div class="ticket-info">
-                        <div class="ticket-title clearfix">
-                            <h4 class="fl">毒犯国际万裕影城</h4>
-                            <span class="fr">2013-01-30</span>
-                        </div>
-
-                        <div class="ticket-extral-info clearfix">
-                            <span class="ticket-no">券号：9646879567</span>
-                            <span class="ticket-vertify-status ico-vertify-status-waiting">待验证</span>
-                        </div>
-                    </div>
-                    <div class="line"></div>
-                </div>
-                <div class="ticket-item">
-                    <div class="ticket-info">
-                        <div class="ticket-title clearfix">
-                            <h4 class="fl">毒犯国际万裕影城</h4>
-                            <span class="fr">2013-01-30</span>
-                        </div>
-
-                        <div class="ticket-extral-info clearfix">
-                            <span class="ticket-no">券号：9646879567</span>
-                            <span class="ticket-vertify-status ico-vertify-status-waiting">待验证</span>
-                        </div>
-                    </div>
-                    <div class="line"></div>
-                </div>
-                <div class="ticket-item">
-                    <div class="ticket-info">
-                        <div class="ticket-title clearfix">
-                            <h4 class="fl">毒犯国际万裕影城</h4>
-                            <span class="fr">2013-01-30</span>
-                        </div>
-
-                        <div class="ticket-extral-info clearfix">
-                            <span class="ticket-no">券号：9646879567</span>
-                            <span class="ticket-vertify-status ico-vertify-status-error">验证失败</span>
-                        </div>
-                    </div>
-                    <div class="line"></div>
-                </div>
-                <div class="ticket-end-sep">
-                    <span class="item-time">------ <i>2013年01月30日 21:38</i> ------</span>
-                </div> -->
+            <div class="content">
+                <div class="tickets" id="tickets"></div>
             </div>
-        </div>
         </section>
         <footer class="footer">
-        <div class="shop-item clearfix">
-            <span class="shop-img fl"><img src="/images/img-usr-conn.png" alt="商户名" /></span>
-            <div class="item-info">
-                <h2 class="shop-name">老叔烧烤</h2>
-                <span class="shop-address">地址：长宁路1018号龙之梦购物中心(近凯旋路)</span>
+            <div class="shop-item clearfix">
+                <span class="shop-img fl"><img src="/images/img-usr-conn.png" alt="商户名" /></span>
+                <div class="item-info">
+                    <h2 class="shop-name">老叔烧烤</h2>
+                    <span class="shop-address">地址：长宁路1018号龙之梦购物中心(近凯旋路)</span>
+                </div>
             </div>
-        </div>
         </footer>
+        <!-- 遮罩 -->
         <div class="overlay"></div>
+        <!-- 弹出框 -->
         <div class="tip-wrapper">
-            <div id="tip-info" class="tip-info">
-            </div>
+            <div id="tip-info" class="tip-info"></div>
         </div>
 
+        <!-- TPL 券信息 -->
         <script type="text/template" id="tplTicketInfo">
             <div class="ticket-head-sep">
                 <span class="item-num"><i>2</i> 条团购券</span>
@@ -235,6 +63,8 @@
                 <span class="item-time">------ <i>2013年01月30日 21:38</i> ------</span>
             </div>
         </script>
+
+        <!-- TPL 弹出框 搜索中 -->
         <script type="text/template" id="tplSearching">
             <div class="line"></div>
             <div class="info-detail">
@@ -242,7 +72,8 @@
             </div>
             <div class="line"></div>
         </script>
-        <!-- 网络连接问题 -->
+
+        <!-- TPL 弹出框 网络连接问题 -->
         <script type="text/template" id="tplNetWorkError">
             <div class="line"></div>
             <div class="info-detail">            
@@ -255,7 +86,8 @@
             <div class="line"></div>
             <button type="button" class="btn">确定</button>
         </script>
-        <!-- 上传确认对方信息 -->
+
+        <!-- TPL 弹出框 确认碰接信息 -->
         <script type="text/template" id="tplConfirmInfo">
             <div class="line"></div>
                 <div class="info-detail">            
@@ -273,7 +105,8 @@
                     <button type="button" class="btn btn-cancel">取消</button>
                 </div>
         </script>
-        <!-- 提示1 -->
+
+        <!-- TPL 弹出框 错误引导提示1 -->
         <script type="text/template" id="tplTip1">
             <div class="line"></div>
             <div class="info-detail">            
@@ -286,7 +119,8 @@
             <div class="line"></div>
             <button type="button" class="btn">确定</button>
         </script>
-        <!-- 提示2 -->
+
+        <!-- TPL 弹出框 错误引导提示2 -->
         <script type="text/template" id="tplTip2">
             <div class="line"></div>
             <div class="info-detail">            
@@ -299,7 +133,8 @@
             <div class="line"></div>
             <button type="button" class="btn">确定</button>
         </script>
-        <!-- 提示3 -->
+
+        <!-- TPL 弹出框 错误引导提示3 -->
         <script type="text/template" id="tplTip3">
             <div class="line"></div>
             <div class="info-detail">            
@@ -312,6 +147,7 @@
             <div class="line"></div>
             <button type="button" class="btn">确定</button>
         </script>
+        
         <script type="text/javascript" src='/javascripts/shop.js'></script>
     </body>
 </html>
