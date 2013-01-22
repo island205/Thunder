@@ -2,7 +2,7 @@
 var
 socket, loginTime = ""
 
-socket = io.connect("http://192.168.1.90:3000/")
+socket = io.connect("http://192.168.32.50:3000/")
 
 socket.on('connected', function (data) {
     console.log('connected')
