@@ -1,9 +1,8 @@
+
 (function (WIN) {
     var B = WIN.B = WIN.B || {}
 
     var ifBumpThreshold = 2.5;
-    var speedArray = new Array();
-    var arrayLength = 20;
     var timeSpan = 20;
     var watchID = null;
     var geoWatchID = null;
@@ -12,13 +11,12 @@
     var longitude = 0;
     var altitude = 0;
 
-    function initArray(){
-        speedArray = new Array();
-    }
+    var lastSpeed = 9.8;
+    var pointCount = 0;
 
     function startBump(onBump) {
+        pointCount = 0;
         onBumpToDo = onBump;
-        initArray();
         var options = {
             frequency: timeSpan
         };
@@ -30,8 +28,7 @@
     }
 
     function stopBump() {
-        initArray();
-        if (watchID) {
+        if(watchID) {
             navigator.accelerometer.clearWatch(watchID)
             navigator.geolocation.clearWatch(geoWatchID);
             watchID = null;
@@ -46,38 +43,24 @@
     }
 
     function onSuccess(acceleration) {
-        addSpeed(acceleration.x, acceleration.y, acceleration.z);
-        if (isBump()) {
-            onBumpToDo(latitude, longitude, '' + Date.now());
+        if(pointCount < 100) {
+            pointCount++;
         }
+        var speed = getSpeed(acceleration.x, acceleration.y, acceleration.z);
+        if(Math.abs(lastSpeed - speed) > 4 && pointCount > 20) {
+            onBumpToDo(latitude, longitude, '' + Date.now());
+            pointCount = 0;
+        }
+
+        lastSpeed = speed;
     }
 
     function onError() {}
 
-    function mean(a) {
-        if (a.length === 0) {
-            return 0
-        }
-        var sum = eval(a.join(' + '));
-        return sum / a.length;
-    }
-
-    function stdDev() {
-        var a = speedArray;
-        var m = mean(a);
-        var sum = 0;
-        var l = a.length;
-        for (var i = 0; i < l; i++) {
-            var dev = a[i] - m;
-            sum += (dev * dev);
-        }
-        return Math.sqrt(sum / (l - 1));
-    }
-
     function getSpeed(x, y, z) {
         return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
     }
-
+    
     function addSpeed(x, y, z) {
         var speed = getSpeed(x, y, z);
         speedArray.push(speed);
@@ -97,4 +80,3 @@
         stop: stopBump
     }
 })(window);
-
