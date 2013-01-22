@@ -1,6 +1,7 @@
-(function(WIN) {
+
+(function (WIN) {
     var B = WIN.B = WIN.B || {}
-    
+
     var ifBumpThreshold = 2.5;
     var timeSpan = 20;
     var watchID = null;
@@ -59,10 +60,23 @@
     function getSpeed(x, y, z) {
         return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
     }
+    
+    function addSpeed(x, y, z) {
+        var speed = getSpeed(x, y, z);
+        speedArray.push(speed);
+        if (speedArray.length > arrayLength) {
+            speedArray.shift();
+        }
+    }
+
+    function isBump() {
+        var s = stdDev();
+        var bump =(speedArray.length >= arrayLength) && (s > ifBumpThreshold) && (latitude != 0) && (longitude != 0);
+        return bump;
+    }
 
     B.bump = {
         start: startBump,
         stop: stopBump
     }
-
 })(window);
