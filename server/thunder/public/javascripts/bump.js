@@ -1,4 +1,4 @@
-(function(WIN) {
+(function (WIN) {
     var B = WIN.B = WIN.B || {}
     
     var ifBumpThreshold = 2.5;

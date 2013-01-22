@@ -80,6 +80,10 @@
 
             els: function () {
                 return els
+            },
+
+            clear: function () {
+                serials.length = 0
             }
         }
     })()

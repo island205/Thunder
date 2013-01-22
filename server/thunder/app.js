@@ -55,7 +55,7 @@ io.set('log level', 1)
 io.sockets.on('connection', function (socket) {
     console.log('connected')
     socket.on('bump', function (data) {
-        console.log('bump: ' + data.type + " " + data.id)        
+        console.log('bump: ' + data.type + " " + data.id, '\n', data.serial)        
         var queue
 
         data.handle = socket 

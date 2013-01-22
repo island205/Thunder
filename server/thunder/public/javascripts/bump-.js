@@ -1,4 +1,3 @@
-
 (function (WIN) {
     var B = WIN.B = WIN.B || {}
 

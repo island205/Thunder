@@ -61,6 +61,7 @@
                 // 禁用 bump
                 B.bump.stop()
                 B.socket.emit('bump', d)
+                B.ticketer.clear()
             },
 
             confirm: function (flag, data) {
